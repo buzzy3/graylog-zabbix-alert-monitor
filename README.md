@@ -9,5 +9,3 @@
 A `config.yml` should be mounted inside the container, the default location is `/app/config.yml`. Pass `MOJO_CONFIGFILE=/some/dir/config.yml` to change this behaviour.
 
 Pass `MOJO_VERBOSE=1` to show command execution details.
-
-Pass `MOJO_MODE=production` to run in prod mode.

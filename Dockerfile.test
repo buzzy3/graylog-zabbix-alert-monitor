@@ -1,7 +1,9 @@
 FROM perl:latest
 MAINTAINER mitch.hulscher@nepworldwide.nl
 
-ADD build/artifact/artifact.tar.gz /app
+ADD bin               /app/bin
+ADD cpanfile          /app
+ADD cpanfile.snapshot /app
 
 RUN apt-get update \
  && apt-get install -y \
@@ -18,7 +20,4 @@ RUN apt-get update \
 
 WORKDIR "/app"
 
-EXPOSE "80"
-
-ENTRYPOINT ["carton", "exec", "perl"]
-CMD ["bin/app.pl", "daemon", "-m", "production", "-l", "http://0.0.0.0:80"]
+ENTRYPOINT ["/app/bin/build.sh"]

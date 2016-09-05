@@ -8,4 +8,5 @@
 !cpanfile
 !cpanfile.snapshot
 !Dockerfile
+!Dockerfile.test
 !README.md
