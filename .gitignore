@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+!.gitignore
+!bin/
+!bin/*
+!config.yml.example
+!cpanfile
+!cpanfile.snapshot
+!Dockerfile
+!README.md

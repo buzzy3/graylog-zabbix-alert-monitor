@@ -1,0 +1,12 @@
+zabbix:
+  server: "10.220.49.13"
+
+graylog:
+- hostname: "Graylog Streams POC"
+  ipaddress:
+    - "10.210.58.67"
+    - "10.210.58.69"
+  rest:
+    url: "http://graylog1-poc.twobridges.io:12900"
+    username: "admin"
+    password: "letmein"
