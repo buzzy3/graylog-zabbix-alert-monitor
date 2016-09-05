@@ -7,6 +7,7 @@ use Mojo::Log;
 use Mojolicious::Lite;
 
 use YAML::Tiny;
+use Data::Dumper;
 use IPC::Cmd 'run';
 
 my $verbose    = $ENV{'MOJO_VERBOSE'}    || 0;
@@ -58,14 +59,16 @@ post '/alert/:severity' => sub {
 
   # Check whether host is configured
   unless ($zbx_host) {
-    $logger->info("=== UNKNONW ZBX_HOST [" . $c->tx->remote_address . "] ===");
+    $logger->warn("Unknown zabbix-host: " . $c->tx->remote_address);
     $c->render(status => 403, json => {});
     return undef;
   }
+  $logger->info("Alert for zabbix-host: $zbx_host [" . $c->tx->remote_address . "]");
 
   # Check for valid severity
   my $severity = $c->stash('severity');
   if ((! $severity) || ($severity !~ /^warning|critical$/)) {
+    $logger->warn("Invalid severity: $severity");
     $c->render(status => 400, json => {});
     return undef;
   }
@@ -73,6 +76,7 @@ post '/alert/:severity' => sub {
   # Check empty body
   my $body = $c->req->json;
   if ((! $body) || (! keys %$body)) {
+    $logger->warn("Empty POST body");
     $c->render(status => 400, json => {});
     return undef;
   }
@@ -83,15 +87,19 @@ post '/alert/:severity' => sub {
 
   # Check for valid json
   unless ($stream_title && defined $alert_grace) {
+    $logger->warn("Malformed POST body");
+    $logger->warn(Dumper $body);
     $c->render(status => 400, json => {});
     return undef;
   }
 
-  $logger->info("=== ALERT FOR ZBX_HOST [$zbx_host] ===");
+  $logger->info("Alert for stream: '$stream_title', with grace: $alert_grace");
 
   if ($c->zabbix_sender($zbx_host, $stream_title, $alert_grace, $severity)) {
+    $logger->info("Sent item value using zabbix_sender");
     $c->render(status => 201, json => {});
   } else {
+    $logger->error("Problem executing zabbix_sender");
     $c->render(status => 503, json => {});
   }
 };
