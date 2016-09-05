@@ -1,10 +1,6 @@
 FROM perl:latest
 MAINTAINER mitch.hulscher@nepworldwide.nl
 
-ADD bin               /app/bin
-ADD cpanfile          /app
-ADD cpanfile.snapshot /app
-
 RUN apt-get update \
  && apt-get install -y \
   jq \
@@ -15,8 +11,11 @@ RUN apt-get update \
  && apt-get install -y zabbix-sender \
  && rm -f /tmp/zabbix-release.deb \
  && rm -rf /var/lib/apt/lists/* \
- && cd /app \
  && cpanm Carton
+
+ADD bin               /app/bin
+ADD cpanfile          /app
+ADD cpanfile.snapshot /app
 
 WORKDIR "/app"
 

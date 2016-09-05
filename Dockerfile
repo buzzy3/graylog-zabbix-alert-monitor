@@ -1,8 +1,6 @@
 FROM perl:latest
 MAINTAINER mitch.hulscher@nepworldwide.nl
 
-ADD build/artifact/artifact.tar.gz /app
-
 RUN apt-get update \
  && apt-get install -y \
   jq \
@@ -13,8 +11,9 @@ RUN apt-get update \
  && apt-get install -y zabbix-sender \
  && rm -f /tmp/zabbix-release.deb \
  && rm -rf /var/lib/apt/lists/* \
- && cd /app \
  && cpanm Carton
+
+ADD build/artifact/artifact.tar.gz /app
 
 WORKDIR "/app"
 
