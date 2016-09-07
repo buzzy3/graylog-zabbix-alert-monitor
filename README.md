@@ -9,3 +9,11 @@
 A `config.yml` should be mounted inside the container, the default location is `/app/config.yml`. Pass `MOJO_CONFIGFILE=/some/dir/config.yml` to change this behaviour.
 
 Pass `MOJO_VERBOSE=1` to show command execution details.
+
+# How to build
+
+```
+docker build --force-rm -f Dockerfile.test -t graylog-zabbix-alert-monitor:latest-test .
+docker run --rm -v $PWD/build:/app/build graylog-zabbix-alert-monitor:latest-test build
+docker build --force-rm -f Dockerfile -t graylog-zabbix-alert-monitor:latest .
+```
