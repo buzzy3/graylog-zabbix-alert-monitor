@@ -14,7 +14,7 @@ use IPC::Cmd 'run';
 use File::Temp 'tempfile';
 
 my $verbose    = $ENV{'MOJO_VERBOSE'} || 0;
-my $config     = decode_json($ENV{'APP_CONFIG'}) || "Invalid configuration";
+my $config     = decode_json($ENV{'APP_CONFIG'}) || die "Invalid configuration";
 my $zbx_server = $config->{'zabbix'}{'server'};
 
 my $zbx_discovery_item = 'gzalertmon.discovery';
