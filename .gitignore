@@ -4,11 +4,10 @@
 !.gitignore
 !bin/
 !bin/*
-!config.yml.example
+!config.json.example
 !cpanfile
 !cpanfile.snapshot
 !Dockerfile
-!Dockerfile.test
 !README.md
 !Procfile
 !Makefile

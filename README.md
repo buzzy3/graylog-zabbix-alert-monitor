@@ -8,7 +8,7 @@ This application bridges the gap between graylog and zabbix. Its goal is to crea
 * `bin/heartbeat.pl` runs approx. every minute to update the heartbeat item in zabbix
 * `bin/discovery.pl` runs approx. every minute to add/remove graylog streams in zabbix
 
-Configuration is passed by setting the `CONFIG` environment variable to a valid JSON-object. You can find an example below.
+Configuration is passed by setting the `APP_CONFIG` environment variable to a valid JSON-object. You can find an example inside this repository.
 
 Pass `MOJO_VERBOSE=1` to show command execution details.
 

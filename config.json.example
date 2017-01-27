@@ -1,0 +1,18 @@
+{
+  "zabbix": {
+    "server": "10.0.100.10"
+  },
+  "graylog": [
+    {
+      "hostname": "graylog1.example.com",
+      "ipaddress": [
+        "10.0.100.20"
+      ],
+      "rest": {
+        "url": "https://10.0.100.20/api",
+        "username": "gzalertmon",
+        "password": "secret-password"
+      }
+    }
+  ]
+}
