@@ -1,19 +1,17 @@
-# How to use
+## graylog-zabbix-alert-monitor
 
-`bin/app.pl` listens for callbacks from graylog.
+This application bridges the gap between graylog and zabbix. Its goal is to create and update items in zabbix based on alerts in graylog. There is no data going from zabbix to graylog.
 
-`bin/heartbeat.pl` should be run every minute to update the heartbeat item in zabbix.
+### How to use
 
-`bin/discovery.pl` should be run every minute to add/remove graylog streams in zabbix.
+* `bin/app.pl` listens for callbacks from graylog
+* `bin/heartbeat.pl` runs approx. every minute to update the heartbeat item in zabbix
+* `bin/discovery.pl` runs approx. every minute to add/remove graylog streams in zabbix
 
-A `config.yml` should be mounted inside the container, the default location is `/app/config.yml`. Pass `MOJO_CONFIGFILE=/some/dir/config.yml` to change this behaviour.
+Configuration is passed by setting the `CONFIG` environment variable to a valid JSON-object. You can find an example below.
 
 Pass `MOJO_VERBOSE=1` to show command execution details.
 
-# How to build
+### How to build
 
-```
-docker build --force-rm -f Dockerfile.test -t graylog-zabbix-alert-monitor:latest-test .
-docker run --rm -v $PWD/build:/app/build graylog-zabbix-alert-monitor:latest-test build
-docker build --force-rm -f Dockerfile -t graylog-zabbix-alert-monitor:latest .
-```
+Simply type `make`.
