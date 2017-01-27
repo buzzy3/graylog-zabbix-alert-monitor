@@ -12,3 +12,5 @@
 !README.md
 !Procfile
 !Makefile
+!.docker-build-hooks/
+!.docker-build-hooks/*
