@@ -80,8 +80,6 @@ post '/alert/:severity' => sub {
     return undef;
   }
 
-  print encode_json($body);
-
   # Define stream
   my $stream_title = $body->{'stream'}{'title'};
   my $alert_grace  = $body->{'check_result'}{'triggered_condition'}{'parameters'}{'grace'} ||
