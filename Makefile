@@ -1,5 +1,5 @@
 ifndef $(APP)
-APP        := graylog-zabbix-alert-monitor
+APP        := graylog-zabbix-alert-mon
 endif
 
 ifndef $(RELEASE)
