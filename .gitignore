@@ -13,3 +13,4 @@
 !Makefile
 !.docker-build-hooks/
 !.docker-build-hooks/*
+!zbx_template_export.xml
