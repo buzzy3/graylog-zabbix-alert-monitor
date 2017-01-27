@@ -1,4 +1,4 @@
-FROM perl:latest
+FROM melopt/perl-carton-base
 MAINTAINER mitch.hulscher@nepworldwide.nl
 
 RUN apt-get update \
@@ -9,15 +9,10 @@ RUN apt-get update \
  && dpkg -i /tmp/zabbix-release.deb \
  && apt-get update \
  && apt-get install -y zabbix-sender \
+ && apt-get purge zabbix-release \
  && rm -f /tmp/zabbix-release.deb \
- && rm -rf /var/lib/apt/lists/* \
- && cpanm Carton
+ && rm -rf /var/lib/apt/lists/*
 
-ADD build/artifact/artifact.tar.gz /app
-
-WORKDIR "/app"
 
 EXPOSE "80"
-
-ENTRYPOINT ["carton", "exec", "perl"]
 CMD ["bin/app.pl", "daemon", "-m", "production", "-l", "http://0.0.0.0:80"]

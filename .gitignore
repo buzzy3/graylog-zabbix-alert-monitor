@@ -11,3 +11,4 @@
 !Dockerfile.test
 !README.md
 !Procfile
+!Makefile
