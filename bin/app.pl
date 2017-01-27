@@ -6,16 +6,15 @@
 use Mojo::Log;
 use Mojolicious::Lite;
 
-use YAML::Tiny;
+use JSON;
 use Data::Dumper;
 use IPC::Cmd 'run';
 
-my $verbose    = $ENV{'MOJO_VERBOSE'}    || 0;
-my $configfile = $ENV{'MOJO_CONFIGFILE'} || './config.yml';
-my $config     = YAML::Tiny->read($configfile)->[0] || die "Can't read '$configfile': $!";
+my $verbose    = $ENV{'MOJO_VERBOSE'} || 0;
+my $config     = decode_json($ENV{'APP_CONFIG'}) || "Invalid configuration";
 my $zbx_sender = '/usr/bin/zabbix_sender';
 
-my $logger  = Mojo::Log->new;
+my $logger = Mojo::Log->new;
 
 helper zabbix_sender => sub {
   my $c          = shift;
@@ -24,7 +23,7 @@ helper zabbix_sender => sub {
   my $grace      = shift;
   my $severity   = shift;
   my $zbx_server = $config->{'zabbix'}{'server'};
-  
+
   my $timestamp  = time() + (($grace+1) * 60);
   my $command    = [
     $zbx_sender,
@@ -83,7 +82,8 @@ post '/alert/:severity' => sub {
 
   # Define stream
   my $stream_title = $body->{'stream'}{'title'};
-  my $alert_grace  = $body->{'check_result'}{'triggered_condition'}{'grace'};
+  my $alert_grace  = $body->{'check_result'}{'triggered_condition'}{'parameters'}{'grace'} ||
+                     $body->{'check_result'}{'triggered_condition'}{'grace'};
 
   # Check for valid json
   unless ($stream_title && defined $alert_grace) {
