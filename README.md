@@ -15,3 +15,7 @@ Pass `MOJO_VERBOSE=1` to show command execution details.
 ### How to build
 
 Simply type `make`.
+
+### How to configure Graylog
+
+Assuming our application is running at `https://example.com`. Configure Graylog to send alerts to `https://example.com/alert/{severity}` where `{severity}` is one of `warning` or `critical`.
