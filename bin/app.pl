@@ -80,15 +80,21 @@ post '/alert/:severity' => sub {
     return undef;
   }
 
+  $logger->info(Dumper $body) if $verbose;
+
   # Define stream
   my $stream_title = $body->{'stream'}{'title'};
   my $alert_grace  = $body->{'check_result'}{'triggered_condition'}{'parameters'}{'grace'} ||
                      $body->{'check_result'}{'triggered_condition'}{'grace'};
 
+  unless (defined $alert_grace) {
+    $logger->warn("No grace period found, defaulting to 1");
+    $alert_grace = 1;
+  }
+
   # Check for valid json
-  unless ($stream_title && defined $alert_grace) {
-    $logger->warn("Malformed POST body");
-    $logger->warn(Dumper $body);
+  unless ($stream_title) {
+    $logger->warn("Missing stream title");
     $c->render(status => 400, json => {});
     return undef;
   }
